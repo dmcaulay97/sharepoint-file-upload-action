@@ -16,7 +16,7 @@ tenant_id = sys.argv[3]
 client_id = sys.argv[4]
 client_secret = sys.argv[5]
 upload_path = sys.argv[6]
-file_path = sys.argv[7]
+library_name = sys.argv[7] if len(sys.argv) > 7 else None
 max_retry = int(sys.argv[8]) or 3
 login_endpoint = sys.argv[9] or "login.microsoftonline.com"
 graph_endpoint = sys.argv[10] or "graph.microsoft.com"
@@ -53,7 +53,17 @@ def rewrite_endpoint(request):
 
 client = GraphClient(acquire_token)
 client.before_execute(rewrite_endpoint, False)
-drive = client.sites.get_by_url(tenant_url).drive.root.get_by_path(upload_path)
+site = client.sites.get_by_url(tenant_url)
+site_drives = site.drives.get().execute_query()
+
+if library_name:
+    matching_drives = [d for d in site_drives if d.name.lower() == library_name.lower()]
+    if not matching_drives:
+        print(f"[Error] Library '{library_name}' not found in site {site_name}")
+        sys.exit(1)
+    drive = matching_drives[0].root.get_by_path(upload_path)
+else:
+    drive = site.drive.root.get_by_path(upload_path)
 
 def progress_status(offset, file_size):
     print(f"Uploaded {offset} bytes from {file_size} bytes ... {offset/file_size*100:.2f}%")
