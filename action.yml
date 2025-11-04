@@ -1,4 +1,3 @@
-# action.yaml
 name: 'Upload File to Sharepoint'
 description: 'Upload one or more files in a directory to Sharepoint site using client ID'
 inputs:
@@ -23,6 +22,10 @@ inputs:
   client_secret:
     description: 'Sharepoint client secret'
     required: true
+  library_name:
+    description: 'Optional: SharePoint library name to upload to'
+    required: false
+    default: ''
   max_retries:
     description: 'Max retries for upload'
     required: false
@@ -42,7 +45,6 @@ inputs:
 outputs:
   return:
     description: 'Function output'
-    # need to specify the extra `value` field for `composite` actions
     value: ${{ steps.send-file.outputs.return }}
 runs:
   using: 'docker'
@@ -55,6 +57,7 @@ runs:
     - ${{ inputs.client_secret }}
     - ${{ inputs.upload_path }}
     - ${{ inputs.file_path }}
+    - ${{ inputs.library_name }}
     - ${{ inputs.max_retries }}
     - ${{ inputs.login_endpoint }}
     - ${{ inputs.graph_endpoint }}
