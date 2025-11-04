@@ -11,17 +11,17 @@ from office365.runtime.queries.upload_session import UploadSessionQuery
 from office365.onedrive.driveitems.uploadable_properties import DriveItemUploadableProperties
 
 site_name = sys.argv[1]
-sharepoint_host_name = sys.argv[2]
+host_name = sys.argv[2]
 tenant_id = sys.argv[3]
 client_id = sys.argv[4]
 client_secret = sys.argv[5]
 file_path = sys.argv[6]
 upload_path = sys.argv[7]
-library_name = os.getenv('INPUT_LIBRARY_NAME', '').strip() or None
-max_retry = int(sys.argv[8]) or 3
-login_endpoint = sys.argv[9] or "login.microsoftonline.com"
-graph_endpoint = sys.argv[10] or "graph.microsoft.com"
-file_path_recursive_match = sys.argv[11] if len(sys.argv) > 11 and sys.argv[11] else "False"
+library_name = sys.argv[8]
+max_retry = int(sys.argv[9]) or 3
+login_endpoint = sys.argv[10] or "login.microsoftonline.com"
+graph_endpoint = sys.argv[11] or "graph.microsoft.com"
+file_path_recursive_match = sys.argv[12] if len(sys.argv) > 12 else "False"
 
 # below used with 'get_by_url' in GraphClient calls
 tenant_url = f'https://{sharepoint_host_name}/sites/{site_name}'
