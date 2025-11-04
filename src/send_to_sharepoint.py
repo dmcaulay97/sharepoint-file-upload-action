@@ -24,7 +24,7 @@ graph_endpoint = sys.argv[11] or "graph.microsoft.com"
 file_path_recursive_match = sys.argv[12] if len(sys.argv) > 12 else "False"
 
 # below used with 'get_by_url' in GraphClient calls
-tenant_url = f'https://{sharepoint_host_name}/sites/{site_name}'
+tenant_url = f'https://{host_name}/sites/{site_name}'
 
 # we're running this in actions, so we'll only ever have one .md file
 local_files = glob.glob(file_path, recursive=file_path_recursive_match)
