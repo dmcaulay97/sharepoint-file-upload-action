@@ -64,7 +64,8 @@ if library_name:
         sys.exit(1)
     drive = matching_drives[0].root.get_by_path(upload_path)
 else:
-    drive = site.drive.root.get_by_path(upload_path)
+    print(f"[Error] No library name provided. Set the INPUT_LIBRARY_NAME environment variable.")
+    sys.exit(1)
 
 def progress_status(offset, file_size):
     print(f"Uploaded {offset} bytes from {file_size} bytes ... {offset/file_size*100:.2f}%")
